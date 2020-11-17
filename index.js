@@ -4,6 +4,9 @@ const express = require('express');
 // init express package
 const app = express();
 
+// make use of a middleware to pass req object so we can extract data
+app.use(express.json());
+
 // load env variable in the index.js
 require('dotenv').config();
 
@@ -12,11 +15,13 @@ const homes = [
 		id: 1,
 		type: 'Apartment',
 		description: 'some dummy description',
+		role: 'admin',
 	},
 	{
 		id: 2,
 		type: 'Flat',
 		description: 'some dummy edited description',
+		role: 'user',
 	},
 ];
 
@@ -44,6 +49,28 @@ app.get('/api/listing/:id', (req, res) => {
 		res.status(404).send('The home with given id cannot be found.');
 	}
 	// if home exists we send home
+	res.send(home);
+});
+
+// post is using to get new resource
+app.post('/api/listing', (req, res) => {
+	// validation check if type or description is not provided
+	if (!req.body.homeType || !req.body.description) {
+		// if its not provided we send an error msg using res.send()
+		return res.status(400).send('Title and description is required.');
+	}
+
+	// create object with the property from homes array.
+	const home = {
+		id: homes.length + 1, // dynamic id
+		homeType: req.body.homeType, // request the data from body
+		description: req.body.description,
+		role: 'user',
+	};
+
+	// add home object we created to the array of homes
+	homes.push(home);
+	// return the data we just created
 	res.send(home);
 });
 
