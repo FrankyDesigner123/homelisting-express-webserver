@@ -7,6 +7,19 @@ const app = express();
 // load env variable in the index.js
 require('dotenv').config();
 
+const homes = [
+	{
+		id: 1,
+		type: 'Apartment',
+		description: 'some dummy description',
+	},
+	{
+		id: 2,
+		type: 'Flat',
+		description: 'some dummy edited description',
+	},
+];
+
 // listen some request (get - post - put - delete)
 // .get() function -> 1st parm: route 2nd param: function with request and response
 app.get('/', (req, res) => {
@@ -16,11 +29,7 @@ app.get('/', (req, res) => {
 // when user make request to /api/listing
 // we send an array of objects
 app.get('/api/listing', (req, res) => {
-	res.send([
-		{ id: 1, roomType: 'Duplex' },
-		{ id: 2, roomType: 'Flat' },
-		{ id: 3, roomType: 'Villa' },
-	]);
+	res.send(homes);
 });
 
 // we can have access to the env variable
