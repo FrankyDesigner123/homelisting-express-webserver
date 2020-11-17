@@ -4,6 +4,7 @@ const express = require('express');
 // init express package
 const app = express();
 
+// load env variable in the index.js
 require('dotenv').config();
 
 // listen some request (get - post - put - delete)
@@ -22,8 +23,9 @@ app.get('/api/listing', (req, res) => {
 	]);
 });
 
+// we can have access to the env variable
 // if theres not port in the .env it will be passed 3000
 const port = process.env.PORT || 3000;
 
-// make request on port 3000
+// make request on port from env var
 app.listen(port, () => console.log(`Server is running on port ${port}.`));
