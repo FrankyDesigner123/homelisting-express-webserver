@@ -4,6 +4,8 @@ const express = require('express');
 // init express package
 const app = express();
 
+require('dotenv').config();
+
 // listen some request (get - post - put - delete)
 // .get() function -> 1st parm: route 2nd param: function with request and response
 app.get('/', (req, res) => {
@@ -20,5 +22,8 @@ app.get('/api/listing', (req, res) => {
 	]);
 });
 
+// if theres not port in the .env it will be passed 3000
+const port = process.env.PORT || 3000;
+
 // make request on port 3000
-app.listen(3000, () => console.log('Server is running on port 3000.'));
+app.listen(port, () => console.log(`Server is running on port ${port}.`));
