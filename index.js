@@ -13,13 +13,13 @@ require('dotenv').config();
 const homes = [
 	{
 		id: 1,
-		type: 'Apartment',
+		homeType: 'Apartment',
 		description: 'some dummy description',
 		role: 'admin',
 	},
 	{
 		id: 2,
-		type: 'Flat',
+		homeType: 'Flat',
 		description: 'some dummy edited description',
 		role: 'user',
 	},
@@ -71,6 +71,28 @@ app.post('/api/listing', (req, res) => {
 	// add home object we created to the array of homes
 	homes.push(home);
 	// return the data we just created
+	res.send(home);
+});
+
+// put is using to edit
+// first we need to find the id we want to edit
+// then we need pass the new req.body.homeType
+app.put('/api/listing/:id', (req, res) => {
+	// logic to check if the id exists in the array with homes.find()
+	// we make use of parseInt to convert req.params.id to interger
+	const home = homes.find((home) => home.id === parseInt(req.params.id)); // req.params.id we can return the id that we pass to the route
+
+	// check if home is false
+	if (!home) {
+		// send a status 404 with text ...
+		return res.status(404).send('The home with given id cannot be found.');
+	}
+
+	// overwrite properties
+	home.homeType = req.body.homeType;
+	home.description = req.body.description;
+
+	// send back edited object
 	res.send(home);
 });
 
