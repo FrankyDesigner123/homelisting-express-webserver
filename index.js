@@ -96,6 +96,27 @@ app.put('/api/listing/:id', (req, res) => {
 	res.send(home);
 });
 
+// delete request
+// first we need to find the id we want to delete
+app.delete('/api/listing/:id', (req, res) => {
+	// logic to check if the id exists in the array with homes.find()
+	// we make use of parseInt to convert req.params.id to interger
+	const home = homes.find((home) => home.id === parseInt(req.params.id)); // req.params.id we can return the id that we pass to the route
+
+	// check if home is false
+	if (!home) {
+		// send a status 404 with text ...
+		return res.status(404).send('The home with given id cannot be found.');
+	}
+
+	// indexOf() we return the item we are looking for.
+	const index = homes.indexOf(home);
+	homes.splice(index, 1); //with splice() we can remove elements from Array. Index is here the item we want to remove.
+
+	// send back the item we just deleted
+	res.send(home);
+});
+
 // we can have access to the env variable
 // if theres not port in the .env it will be passed 3000
 const port = process.env.PORT || 3000;
