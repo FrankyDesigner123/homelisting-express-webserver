@@ -117,5 +117,19 @@ router.put('/:id', validate, (req, res) => {
 		.catch((err) => console.log(err));
 });
 
+// delete House Listing data by id using .delete()
+router.delete('/:id', (req, res) => {
+	// grab the id from the params
+	const houseId = req.params.id;
+
+	// we find item by Id and remove it
+	House.findByIdAndRemove(houseId)
+		// we get the result and pass data back to the user
+		.then((result) => {
+			res.send(result);
+		})
+		.catch((err) => console.log(err));
+});
+
 // we need to export it so we can make us of it in index.js
 module.exports = router;
