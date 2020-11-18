@@ -12,3 +12,7 @@ const HouseSchema = new mongoose.Schema({
 	image: String,
 	yearBuilt: Number,
 });
+
+// when we want to interact with this database we can create an instance of this Schema
+// .model() create model 1st param: House is the name of the collection 2nd param: the Schema
+module.exports = mongoose.model('House', HouseSchema);
