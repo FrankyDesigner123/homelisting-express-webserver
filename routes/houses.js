@@ -24,7 +24,7 @@ const validate = [
 	check('price').isNumeric().withMessage('Price should be a number.'),
 ];
 
-// create House Listing Data
+// create House Listing Data using .post()
 // pass in validation as second parameter
 router.post('/', validate, (req, res) => {
 	// check the validation
@@ -57,5 +57,29 @@ router.post('/', validate, (req, res) => {
 		.catch((err) => console.log(err));
 });
 
+// fetch House Listing Data using .get()
+router.get('/', (req, res) => {
+	// .find() is mongoose method, this returns all the data in the collection House
+	House.find()
+		// get result that we can send back to user
+		.then((houses) => {
+			res.send(houses);
+		})
+		.catch((err) => console.log(err));
+});
+
+// fetch House Listing Data by ID
+router.get('/:id', (req, res) => {
+	// grab the id from the params
+	const houseId = req.params.id;
+
+	//
+	House.findById(houseId)
+		// if we succeed to fetch the item by id, then we send it back to the user
+		.then((house) => {
+			res.send(house);
+		})
+		.catch((err) => console.log(err));
+});
 // we need to export it so we can make us of it in index.js
 module.exports = router;
