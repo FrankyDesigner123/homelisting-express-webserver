@@ -81,5 +81,41 @@ router.get('/:id', (req, res) => {
 		})
 		.catch((err) => console.log(err));
 });
+
+//update House Listing data using .put()
+router.put('/:id', validate, (req, res) => {
+	// grab the id from the params
+	const houseId = req.params.id;
+
+	// check the validation
+	const errors = validationResult(req);
+
+	// check errors
+	if (!errors.isEmpty()) {
+		return res.status(422).send({ errors: errors.array() });
+	}
+
+	// find the item we want to update
+	House.findById(houseId)
+		.then((house) => {
+			(house.title = req.body.title),
+				(house.address = req.body.address),
+				(house.homeType = req.body.homeType),
+				(house.description = req.body.description),
+				(house.price = req.body.price),
+				(house.image = req.body.image),
+				(house.yearBuilt = req.body.yearBuilt);
+
+			// this wont create a new collection, but will update the existing one.
+			// its because in this instance the id remains the same
+			return house.save();
+		})
+		// we get the result and pass back to the user
+		.then((result) => {
+			res.send(result);
+		})
+		.catch((err) => console.log(err));
+});
+
 // we need to export it so we can make us of it in index.js
 module.exports = router;
